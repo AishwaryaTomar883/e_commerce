@@ -57,14 +57,14 @@ MANAGERS = ADMINS
 ADMIN_URL = env.str("DJANGO_ADMIN_URL", "admin")
 
 DATABASES = {
-    'default': env.db("DATABASE_URL", default="mysql://root:root@localhost:3306/e_commerce")
-}
-DATABASES['default']['ATOMIC_REQUESTS'] = True
-DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)
-DATABASES["default"]["OPTIONS"] = {
-    "init_command": "SET default_storage_engine=InnoDB",
-    "charset": "utf8mb4",
-    "use_unicode": True,
+    "default": {
+        "ENGINE": env.str("DATABASE_ENGINE", "django.db.backends.postgresql_psycopg2"),
+        "NAME": env.str("DATABASE_NAME", "e_commerce"),
+        "USER": env.str("DATABASE_USER", "postgres"),
+        "PASSWORD": env.str("DATABASE_PASSWORD", "postgres"),
+        "HOST": env.str("DATABASE_HOST", "localhost"),
+        "PORT": env.str("DATABASE_PORT", "5432"),
+    }
 }
 
 EMAIL_BACKEND = env.str("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
@@ -181,7 +181,7 @@ MIDDLEWARE = [
     
     
 
-    "kn_defaults.logging.middlewares.KnLogging",
+    # "kn_defaults.logging.middlewares.KnLogging",
 ]
 
 ROOT_URLCONF = "e_commerce.urls"
@@ -203,7 +203,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "django.contrib.messages",
-    "kn_defaults.logging",
+    # "kn_defaults.logging",
 
     "rest_framework",
     "rest_framework.authtoken",
@@ -244,8 +244,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # more details on how to customize your logging configuration.
 KN_LOG_FILE_PATH = join(DJANGO_ROOT, "logs/log.log")
 
-from kn_defaults.logging.defaults import get_base_logging
-LOGGING = get_base_logging(logstash=False)
+# from kn_defaults.logging.defaults import get_base_logging
+# LOGGING = get_base_logging(logstash=False)
 
 KN_LOGGING_URL_PATTERNS = []
 
@@ -283,26 +283,6 @@ CACHE_ENGINES = {
 CACHES = {
     "default": CACHE_ENGINES[env.str("CACHE", default="dummy")]
 }
-
-
-########## REDIS QUEUE CONFIGURATION
-# https://github.com/ui/django-rq#support-for-django-redis-and-django-redis-cache
-RQ_QUEUES = {
-    'default': {
-        'HOST': env.str("REDIS_HOST", default="localhost"),
-        'PORT': env.int("REDIS_PORT", default=6379),
-        'DB': 0,
-        'PASSWORD': env.str("REDIS_PASSWORD", default=""),
-        'DEFAULT_TIMEOUT': 86400 * 7,
-    }
-}
-
-RQ = {
-    'DEFAULT_RESULT_TTL': 86400 * 7,
-}
-
-RQ_SHOW_ADMIN_LINK = True
-########## END REDIS QUEUE CONFIGURATION
 
 
 REST_FRAMEWORK = {
