@@ -166,9 +166,6 @@ TEMPLATES = [
 ]
 
 MIDDLEWARE = [
-    
-
-    
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -177,11 +174,6 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
-    
-    
-
-    # "kn_defaults.logging.middlewares.KnLogging",
 ]
 
 ROOT_URLCONF = "e_commerce.urls"
@@ -191,10 +183,6 @@ WSGI_APPLICATION = "e_commerce.wsgi.application"
 
 INSTALLED_APPS = [
     "user.apps.UsersConfig",
-
-    
-    
-
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -203,20 +191,9 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "django.contrib.messages",
-    # "kn_defaults.logging",
-
     "rest_framework",
     "rest_framework.authtoken",
-	# "djvue",
-
-    
-
-    
-
     "compressor",
-    
-
-    
 ]
 
 AUTH_USER_MODEL = "user.User"
@@ -237,18 +214,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
-KN_LOG_FILE_PATH = join(DJANGO_ROOT, "logs/log.log")
-
-# from kn_defaults.logging.defaults import get_base_logging
-# LOGGING = get_base_logging(logstash=False)
-
-KN_LOGGING_URL_PATTERNS = []
-
 LOCALE_PATHS = (normpath(join(PROJECT_ROOT, "locale")),)
 
 # Dummy gettext function
@@ -258,15 +223,6 @@ LANGUAGES = [
     ("en", gettext("en")),
     
 ]
-
-
-
-
-
-
-
-# Analytics
-GOOGLE_ANALYTICS = env.str("GOOGLE_ANALYTICS", default="")
 
 CACHE_ENGINES = {
     
