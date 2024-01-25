@@ -18,7 +18,6 @@ urlpatterns += (
     path('', include('djvue.urls')),
     path(f"{settings.ADMIN_URL}/", admin.site.urls),
     path("user/", include("user.urls", namespace="user")),
-    path("api/v1/", include("user.api.urls", namespace="user_api")),
 )
 
 if settings.DEBUG:
