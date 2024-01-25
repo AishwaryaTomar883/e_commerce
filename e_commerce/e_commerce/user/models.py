@@ -1,14 +1,26 @@
-from django.contrib.auth.models import AbstractUser
-from django.db.models import CharField
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 class User(AbstractUser):
+    """Custom user model representing a user in the system."""
 
-    # First Name and Last Name do not cover name patterns
-    # around the globe.
-    name = CharField(_("Name of User"), blank=True, max_length=255)
+    email = models.EmailField(_("email address"), unique=True)
 
-    def get_absolute_url(self):
-        return reverse("user:detail", kwargs={"username": self.username})
+    def save(self, *args, **kwargs):
+        """
+        Saves the user object.
+        This method sets the username field to the user's email address before saving the object.
+        """
+        self.username = self.email.lower()
+        super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the user.
+        Returns:
+            str: The email address of the user.
+        """
+        return self.email

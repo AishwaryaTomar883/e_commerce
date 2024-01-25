@@ -1,24 +1,61 @@
-from django.contrib.auth import get_user_model
-from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
-from rest_framework.response import Response
-from rest_framework.viewsets import GenericViewSet
+from django.shortcuts import render
+from rest_framework.exceptions import ValidationError
+from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.views import TokenRefreshView
 
-from .serializers import UserSerializer
+from .serializers import LoginSerializer
+from utils.base_utils import AppResponse, AuthService
 
-User = get_user_model()
+app_response = AppResponse()
 
 
-class UserViewSet(RetrieveModelMixin, ListModelMixin, UpdateModelMixin, GenericViewSet):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-    lookup_field = "username"
+class CustomTokenRefreshView(TokenRefreshView):
+    permission_classes = (AllowAny,)
 
-    def get_queryset(self, *args, **kwargs):
-        return self.queryset.filter(id=self.request.user.id)
 
-    @action(detail=False, methods=["GET"])
-    def me(self, request):
-        serializer = UserSerializer(request.user, context={"request": request})
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+def login(request):
+    return render(request, "user/login.html")
+
+
+class LoginAPIView(GenericAPIView):
+    """
+    API view for user login.
+    """
+
+    permission_classes = ()
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handle user login and authentication.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+            *args: Additional positional arguments.
+            **kwargs: Additional keyword arguments.
+
+        Returns:
+            Response: A success response containing authentication tokens on successful login.
+                    An error response on failure.
+
+        Raises:
+            ValidationError: If the serializer validation fails.
+            Exception: If any other exception occurs during the login process.
+        """
+        try:
+            serializer = self.serializer_class(
+                data=request.data, context={"request": request}
+            )
+            serializer.is_valid(raise_exception=True)
+            return app_response.success(
+                **AuthService().get_auth_tokens_for_user(serializer.validated_data),
+            )
+        except ValidationError as e:
+            raise e
+        except Exception as e:
+            return app_response.error(messages=str(e))
+
+
+def home(request):
+    return render(request, "home.html")
