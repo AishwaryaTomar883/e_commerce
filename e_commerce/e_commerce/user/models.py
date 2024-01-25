@@ -14,7 +14,7 @@ class User(AbstractUser):
         Saves the user object.
         This method sets the username field to the user's email address before saving the object.
         """
-        self.username = self.email
+        self.username = self.email.lower()
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:

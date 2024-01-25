@@ -15,7 +15,7 @@ class CustomTokenRefreshView(TokenRefreshView):
 
 
 def login(request):
-    return render(request, "login.html")
+    return render(request, "user/login.html")
 
 
 class LoginAPIView(GenericAPIView):
