@@ -20,3 +20,19 @@ def get_model(app_label: str, model_name: str) -> Model:
         raise ImproperlyConfigured(
             f"App label {app_label} must be defined in project directory"
         )
+
+
+def normalize_email(email: str) -> str:
+    """
+    Normalize the given email address.
+
+    This function takes an email address as input and performs normalization by stripping leading and trailing whitespace
+    and converting the email address to lowercase.
+
+    Args:
+        email (str): The email address to normalize.
+
+    Returns:
+        str: The normalized email address.
+    """
+    return email.strip().lower()
