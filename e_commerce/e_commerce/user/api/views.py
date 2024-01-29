@@ -58,4 +58,4 @@ class LoginAPIView(GenericAPIView):
 
 
 def home(request):
-    return render(request, "home.html")
+    return render(request, "user/home.html")
