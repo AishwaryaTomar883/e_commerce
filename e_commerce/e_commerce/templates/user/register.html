@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6 col-xl-5 px-xl-0">
+                <div class="card">
+                    <div class="card border">
+                        <div class="card-header px-4 px-sm-5 border-bottom border-200">
+                            <div class="row text-left justify-content-between align-items-center">
+                                <div class="col-auto">
+                                    <h5 class="mb-0"> Register</h5>
+                                </div>
+                                <div class="col-auto">
+                                    <p class="fs--1 text-600 mb-0">Have an account? <a href="{% url 'user:user_api:login' %}">Sign in</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4 px-sm-5 py-sm-4">
+                        <form id="registerForm">
+                            {% csrf_token %}
+                            <!-- First Name -->
+                            <div class="mb-3">
+                                <label for="id_first_name" class="form-label">First Name:</label>
+                                <input type="text" class="form-control" id="id_first_name" name="first_name" required>
+                            </div>
+                            <!-- Last Name -->
+                            <div class="mb-3">
+                                <label for="id_last_name" class="form-label">Last Name:</label>
+                                <input type="text" class="form-control" id="id_last_name" name="last_name" required>
+                            </div>
+                            <!-- Email -->
+                            <div class="mb-3">
+                                <label for="id_email" class="form-label">Email Address:</label>
+                                <input type="email" class="form-control" id="id_email" name="email" required>
+                            </div>
+                            <!-- Password -->
+                            <div class="mb-3">
+                                <label for="id_password" class="form-label">Password:</label>
+                                <input type="password" class="form-control" id="id_password" name="password" required>
+                            </div>
+                            <!-- Confirm Password -->
+                            <div class="mb-3">
+                                <label for="id_confirm_password" class="form-label">Confirm Password:</label>
+                                <input type="password" class="form-control" id="id_confirm_password" name="confirm_password" required>
+                            </div>
+                            <!-- Role -->
+                            <div class="mb-3">
+                                <label for="id_role" class="form-label">User Type:</label>
+                                <select class="form-select" id="id_role" name="role" required>
+                                    {% for group in groups %}
+                                        <option value="{{ group.name }}">{{ group.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <!-- Register Button -->
+                            <button type="button" class="btn btn-success btn-block w-100 mt-3" onclick="performRegister()">Register</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/registration.js' %}"></script>
+{% endblock %}

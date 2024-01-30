@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.routers import SimpleRouter
 
-from .views import CustomTokenRefreshView, login, LoginAPIView, home
+from .views import CustomTokenRefreshView, login, LoginAPIView, home, register, RegistrationAPIView
 
 app_name = "user_api"
 
@@ -14,4 +14,6 @@ urlpatterns += [
     path("login/", login, name="login"),
     path("login_api/", LoginAPIView.as_view(), name="login_api"),
     path("home/", home, name="home"),
+    path("register/", register, name="register"),
+    path("register_api/", RegistrationAPIView.as_view(), name="register_api"),
 ]

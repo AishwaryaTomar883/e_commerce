@@ -33,6 +33,9 @@ Installation
 
     $ python manage.py migrate
 
+#. Create roles ::
+
+   $ python manage.py create_roles
 
 Settings
 ========
