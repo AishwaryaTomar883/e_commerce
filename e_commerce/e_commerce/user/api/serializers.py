@@ -25,7 +25,7 @@ class LoginSerializer(serializers.Serializer):
         """
         login_data = {
             "password": attrs.get("password"),
-            "username": attrs.get("email").lower(),
+            "username": normalize_email(attrs.get("email")),
         }
         user = authenticate(**login_data)
         if not user:
@@ -92,7 +92,7 @@ class SignupSerializer(serializers.ModelSerializer):
             serializers.ValidationError: If the role does not exist.
         """
         try:
-            return Group.objects.get(name__iexact=role.lower())
+            return Group.objects.get(name__iexact=role)
         except Group.DoesNotExist:
             raise serializers.ValidationError(UserSignupMessages.INVALID_ROLE_ERROR)
 
@@ -111,5 +111,5 @@ class SignupSerializer(serializers.ModelSerializer):
         user = super().create(validated_data)
         user.set_password(password)
         user.groups.add(role)
-        user.save()
+        user.save(update_fields=["password"])
         return user
