@@ -2,6 +2,8 @@ from django.apps import apps
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Model
 
+from utils.constants import ProductImageConstants, CarouselImageConstants
+
 
 def get_model(app_label: str, model_name: str) -> Model:
     """This function will return model object
@@ -36,3 +38,13 @@ def normalize_email(email: str) -> str:
         str: The normalized email address.
     """
     return email.strip().lower()
+
+
+def product_image_upload_path(instance, filename) -> str:
+    """Function to create an upload path for product image."""
+    return f"{ProductImageConstants.PRODUCT_IMAGE_PATH}/{filename}"
+
+
+def carousel_image_upload_path(instance, filename) -> str:
+    """Function to create an upload path for carousel image."""
+    return f"{CarouselImageConstants.CAROUSEL_IMAGE_PATH}/{filename}"
