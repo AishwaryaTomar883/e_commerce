@@ -1,8 +1,10 @@
 $(document).ready(function(){
-  $('#loginModal').modal('show');
+  var accessToken = localStorage.getItem("accessToken");
+  if (!accessToken) {
+    $('#loginModal').modal('show');
+  }
 });
 
 function closeLoginModal() {
-    const loginModal = document.getElementById('loginModal');
-    loginModal.style.display = 'none';
+     $('#loginModal').modal('hide');
 }
