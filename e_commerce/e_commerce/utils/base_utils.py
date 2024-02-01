@@ -1,17 +1,23 @@
+from datetime import datetime, timedelta
 from http import HTTPStatus
 
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from utils.import_models import User
+from e_commerce.settings import base
 
 
 class AuthService:
     def __tokens_for_user(self, user: User) -> dict:
         """generate tokens"""
         refresh = RefreshToken.for_user(user)
+        access_token_lifetime = base.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME']
+        access_token_expiration = datetime.utcnow() + access_token_lifetime
+        access_token = str(refresh.access_token)
         return {
             "refresh": str(refresh),
-            "access": str(refresh.access_token),
+            "access": access_token,
+            "expiration_time": int(access_token_expiration.timestamp() * 1000)
         }
 
     def get_auth_tokens_for_user(self, user: User) -> dict:

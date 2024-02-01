@@ -13,6 +13,7 @@ function performLogin() {
             if(jqXHR.status === 200){
                 localStorage.setItem('refreshToken', response.refresh);
                 localStorage.setItem('accessToken', response.access);
+                localStorage.setItem('accessTokenExpiration', response.expiration_time);
                 window.location.href = '/user/api/v1/home/';
             } else {
                 msg = response.error;
