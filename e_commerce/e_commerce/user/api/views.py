@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from utils.messages import UserSignupMessages
 from .serializers import LoginSerializer, SignupSerializer
 from utils.base_utils import AppResponse, AuthService
+from ..models import CarouselImage
 
 app_response = AppResponse()
 
@@ -60,7 +61,8 @@ class LoginAPIView(GenericAPIView):
 
 
 def home(request):
-    return render(request, "user/home.html")
+    carousel_images = CarouselImage.objects.all()
+    return render(request, "user/home.html", {"carousel_images": carousel_images})
 
 
 def register(request):
