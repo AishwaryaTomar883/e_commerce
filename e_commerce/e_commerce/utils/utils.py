@@ -2,7 +2,7 @@ from django.apps import apps
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Model
 
-from utils.constants import ProductImageConstants, CarouselImageConstants
+from utils.constants import ProductImageConstants, CarouselImageConstants, CategoryImageConstants
 
 
 def get_model(app_label: str, model_name: str) -> Model:
@@ -48,3 +48,8 @@ def product_image_upload_path(instance, filename) -> str:
 def carousel_image_upload_path(instance, filename) -> str:
     """Function to create an upload path for carousel image."""
     return f"{CarouselImageConstants.CAROUSEL_IMAGE_PATH}/{filename}"
+
+
+def category_image_upload_path(instance, filename) -> str:
+    """Function to create an upload path for category image."""
+    return f"{CategoryImageConstants.CATEGORY_IMAGE_PATH}/{filename}"

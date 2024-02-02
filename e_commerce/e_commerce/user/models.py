@@ -7,7 +7,7 @@ from django_extensions.db.models import (
     TimeStampedModel,
 )
 
-from utils.utils import product_image_upload_path, carousel_image_upload_path
+from utils.utils import product_image_upload_path, carousel_image_upload_path, category_image_upload_path
 
 
 class User(AbstractUser):
@@ -46,6 +46,7 @@ class BaseMasterModel(ActivatorModel, TimeStampedModel):
 class Category(BaseMasterModel):
     """model for storing categories"""
     name = models.CharField(max_length=150, null=True)
+    image = models.ImageField(upload_to=category_image_upload_path, null=True)
 
     def __str__(self) -> str:
         """

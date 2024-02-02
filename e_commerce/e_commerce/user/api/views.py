@@ -5,6 +5,7 @@ from rest_framework.generics import GenericAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenRefreshView
 
+from utils.import_models import Category
 from utils.messages import UserSignupMessages
 from .serializers import LoginSerializer, SignupSerializer
 from utils.base_utils import AppResponse, AuthService
@@ -62,7 +63,8 @@ class LoginAPIView(GenericAPIView):
 
 def home(request):
     carousel_images = CarouselImage.objects.all()
-    return render(request, "user/home.html", {"carousel_images": carousel_images})
+    categories = Category.objects.all()
+    return render(request, "user/home.html", {"carousel_images": carousel_images, "categories": categories})
 
 
 def register(request):

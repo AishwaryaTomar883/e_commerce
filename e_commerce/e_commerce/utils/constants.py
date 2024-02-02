@@ -8,3 +8,7 @@ class ProductImageConstants:
 
 class CarouselImageConstants:
     CAROUSEL_IMAGE_PATH = "carousel_images/"
+
+
+class CategoryImageConstants:
+    CATEGORY_IMAGE_PATH = "category_images/"
